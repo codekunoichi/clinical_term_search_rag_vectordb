@@ -42,9 +42,9 @@ def query_icd10(user_query, top_k=5):
 # Test the query function
 if __name__ == "__main__":
     # user_query = "cholera symptoms due to Vibrio cholerae"
-    # user_query = "sugar problem with blurry eyes"
+    user_query = "sugar problem with blurry eyes"
     # user_query = "High BP"
-    user_query = "piles"
+    # user_query = "piles"
     results = query_icd10(user_query)
 
     print(f"Query Results for {user_query}:")

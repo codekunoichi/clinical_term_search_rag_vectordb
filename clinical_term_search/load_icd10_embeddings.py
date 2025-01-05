@@ -1,5 +1,5 @@
 from sentence_transformers import SentenceTransformer
-from pinecone import Pinecone, ServerlessSpec
+from pinecone import Pinecone
 import pandas as pd
 import os
 
