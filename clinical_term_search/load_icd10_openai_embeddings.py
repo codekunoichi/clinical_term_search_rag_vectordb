@@ -1,12 +1,10 @@
 import openai
-import pinecone
-import pandas as pd
 from pinecone import Pinecone
+import pandas as pd
 import os
+import time
+from tqdm import tqdm  # Progress bar library
 import time  # To measure execution time
-
-# Start timer
-start_time = time.time()
 
 
 # Set OpenAI API key
@@ -19,15 +17,14 @@ pc = Pinecone(
 
 # Connect to the ICD-10 index
 index_name = "icd10-openai"  # Replace with your index name
-index = pinecone.Index(index_name)
+index = pc.Index(index_name)
 
-print("Read the CSV...")
 # Load the ICD-10 data
-# Replace 'ICD10.csv' with the actual path to your CSV file
 icd10_data = pd.read_csv("ICD10.csv")
-# Ensure the DataFrame contains 'Code', 'Name', and 'Description' columns
 
-print("Generating embeddings using openai")
+# Start timer
+start_time = time.time()
+
 # Function to generate embeddings using OpenAI
 def generate_openai_embedding(text):
     response = openai.Embedding.create(
@@ -39,11 +36,9 @@ def generate_openai_embedding(text):
 # Generate embeddings and prepare data for upsertion
 vectors_to_upsert = []
 print("Generating embeddings and preparing data for upsertion...")
-for _, row in icd10_data.iterrows():
-    # Generate an embedding using the 'Description' column
+
+for _, row in tqdm(icd10_data.iterrows(), total=len(icd10_data), desc="Embedding Generation"):
     embedding = generate_openai_embedding(row['Description'])
-    
-    # Prepare a vector for upsertion
     vectors_to_upsert.append({
         "id": row["Code"],  # Use the ICD-10 code as the unique ID
         "values": embedding,
@@ -54,16 +49,12 @@ for _, row in icd10_data.iterrows():
     })
 
 # Upsert the embeddings into the Pinecone index
-# Pinecone recommends upserting in batches to improve performance
-batch_size = 200
+batch_size = 300
 print(f"Upserting {len(vectors_to_upsert)} vectors into Pinecone...")
-for i in range(0, len(vectors_to_upsert), batch_size):
+
+for i in tqdm(range(0, len(vectors_to_upsert), batch_size), desc="Upsertion Progress"):
     batch = vectors_to_upsert[i:i + batch_size]
     index.upsert(vectors=batch)
-
-print(f"Successfully upserted {len(vectors_to_upsert)} vectors into the Pinecone index!")
-
-print(index)
 
 # End timer
 end_time = time.time()
@@ -72,3 +63,4 @@ end_time = time.time()
 total_time = end_time - start_time
 print(f"Total time taken: {total_time:.2f} seconds ({total_time/60:.2f} minutes)")
 
+print(f"Successfully upserted {len(vectors_to_upsert)} vectors into the Pinecone index!")
