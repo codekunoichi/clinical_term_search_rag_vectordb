@@ -1,0 +1,5 @@
+pinecone-client
+pinecone
+openai
+sentence-transformers
+pandas
