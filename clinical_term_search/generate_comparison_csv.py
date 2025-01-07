@@ -43,10 +43,13 @@ def generate_comparison_csv():
     headers = [
         'Search Term',
         'Rank',
+        'MiniLM-L6 ICD10',
         'MiniLM-L6 Description',
         'MiniLM-L6 Score',
+        'MiniLM-L12 ICD10',
         'MiniLM-L12 Description',
         'MiniLM-L12 Score',
+        'OpenAI ICD10',
         'OpenAI Description',
         'OpenAI Score'
     ]
@@ -61,10 +64,13 @@ def generate_comparison_csv():
             row = {
                 'Search Term': term,
                 'Rank': rank + 1,
+                'MiniLM-L6 ICD10': results['MiniLM-L6'][rank]['code'],
                 'MiniLM-L6 Description': results['MiniLM-L6'][rank]['description'],
                 'MiniLM-L6 Score': results['MiniLM-L6'][rank]['score'],
+                'MiniLM-L12 ICD10': results['MiniLM-L12'][rank]['code'],
                 'MiniLM-L12 Description': results['MiniLM-L12'][rank]['description'],
                 'MiniLM-L12 Score': results['MiniLM-L12'][rank]['score'],
+                'OpenAI ICD10': results['OpenAI'][rank]['code'],
                 'OpenAI Description': results['OpenAI'][rank]['description'],
                 'OpenAI Score': results['OpenAI'][rank]['score']
             }
