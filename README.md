@@ -27,13 +27,17 @@ Token Credits and API Key Setup
 Before running the application, you need to purchase token credits for OpenAI and/or Anthropic if required.
 
 OpenAI Credits: Purchase token credits from OpenAI.
-Anthropic Credits: Purchase token credits from Anthropic.
+Create a Pinecone API Key.
 After purchasing credits, set the following environment variables for your API keys:
 
 ```
 export OPENAI_API_KEY="your-openai-api-key"
-export ANTHROPIC_API_KEY="your-anthropic-api-key"
+export PINECONE_API_KEY="your-pinecone-api-key"
 ```
+
+## Experiment Outline
+
+
 
 ## Load CPT Data
 
