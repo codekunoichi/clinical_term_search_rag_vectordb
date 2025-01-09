@@ -61,7 +61,7 @@ export PYTHONPATH=$(pwd)
 Set environment variables:
 ```bash
 export OPENAI_API_KEY="your-openai-api-key"
-export ANTHROPIC_API_KEY="your-anthropic-api-key"
+export PINECONE_API_KEY="your-pinecone-api-key"
 ```
 
 ## Loading Data
